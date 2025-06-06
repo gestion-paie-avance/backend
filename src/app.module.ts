@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -11,7 +13,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       envFilePath: '.env'
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [
+        ConfigModule,
+        JwtModule.register({global: true , secret: '123'})
+      ],
       useFactory: (configService : ConfigService) => ({
         type: 'postgres',
         host: configService.get('DB_HOST'),
@@ -22,8 +27,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         synchronize: configService.get('DB_SYNCHRONIZE') === 'true',
         entities: [__dirname+'/**/*.entity{.ts,.js}'],
       }),
+    
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
