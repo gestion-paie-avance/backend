@@ -14,8 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     TypeOrmModule.forRootAsync({
       imports: [
-        ConfigModule,
-        JwtModule.register({global: true , secret: '123'})
+        ConfigModule
       ],
       useFactory: (configService : ConfigService) => ({
         type: 'postgres',

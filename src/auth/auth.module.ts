@@ -11,7 +11,6 @@ import { RefreshToken } from './entities/token.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Auth,RefreshToken]),
-    PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async(configService: ConfigService) => ({
@@ -23,6 +22,6 @@ import { RefreshToken } from './entities/token.entity';
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [PassportModule,JwtModule]
+  exports: [JwtModule]
 })
 export class AuthModule {}

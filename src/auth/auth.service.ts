@@ -61,7 +61,13 @@ export class AuthService {
     }
 
     async generateToken(userId){
-        const accessToken = this.jwtService.sign({userId})
+        const userAuth = await this.authRepository.findOne({where: {id: userId}});
+         if (!userAuth) {
+            throw new UnauthorizedException('Unauthorize user');
+        }
+        const payload = {sub: userAuth.id , role: userAuth.role}
+        
+        const accessToken = this.jwtService.sign(payload)
 
         const refreshToken = uuid4();
         
