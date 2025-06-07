@@ -4,7 +4,7 @@ import { SignUpdto } from './dto/signUp.dto';
 import { LoginDto } from './dto/login.dto';
 import { ApiBearerAuth, ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
-import { Roles } from 'src/role.decorator';
+import { Roles } from 'src/decorators/roles.decorator';
 import { AuthRole } from 'src/enums/authRole.enum';
 import { AuthentificationGuard } from 'src/guards/authentification.guard';
 import { Authorization } from 'src/guards/authorisation.guard';
