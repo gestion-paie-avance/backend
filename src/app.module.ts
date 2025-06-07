@@ -5,6 +5,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { SeederService } from './seeder/seeder.service';
+import { PostesModule } from './postes/poste.module';
+import { DepartementsModule } from './postes/departement.module';
 
 @Module({
   imports: [
@@ -30,8 +33,10 @@ import { JwtModule } from '@nestjs/jwt';
       inject: [ConfigService],
     }),
     AuthModule,
+    PostesModule,
+    DepartementsModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeederService],
 })
 export class AppModule {}
