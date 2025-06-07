@@ -20,7 +20,7 @@ export class Authorization implements CanActivate{
         const user = request.user
 
         if(!user || !requiredRoles.includes(user.role)) {
-            throw new ForbiddenException('The Only user has role Rh can access here');
+            throw new ForbiddenException('The Only user has role RH or ADMIN can access here');
         }
         return true;
     }

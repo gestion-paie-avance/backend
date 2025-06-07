@@ -14,7 +14,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AuthentificationGuard,Authorization)
-  @Roles(AuthRole.EMPLOYE)
+  @Roles(AuthRole.ADMIN,AuthRole.RH)
   @Post('signUp')
   async signUp(@Body() signUpDto: SignUpdto){
     return this.authService.signUp(signUpDto);
