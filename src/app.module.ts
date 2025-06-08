@@ -8,6 +8,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { SeederService } from './seeder/seeder.service';
 import { PostesModule } from './postes/poste.module';
 import { DepartementsModule } from './postes/departement.module';
+import { EmployerModule } from './employer/employer.module';
+import { ModePaiementModule } from './mode-paiements/mode-paiements.module';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { DepartementsModule } from './postes/departement.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [
-        ConfigModule
+        ConfigModule,
       ],
       useFactory: (configService : ConfigService) => ({
         type: 'postgres',
@@ -34,7 +36,9 @@ import { DepartementsModule } from './postes/departement.module';
     }),
     AuthModule,
     PostesModule,
-    DepartementsModule
+    DepartementsModule,
+    EmployerModule,
+    ModePaiementModule
   ],
   controllers: [AppController],
   providers: [AppService, SeederService],

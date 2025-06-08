@@ -1,5 +1,6 @@
+import { Employer } from "src/employer/entities/employer.entity";
 import { AuthRole } from "src/enums/authRole.enum";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Auth{
@@ -12,15 +13,16 @@ export class Auth{
     @Column()
     password: string;
 
-    @Column()
-    employe_matricule: string;
-
     @Column({
         type: 'enum',
         enum: AuthRole,
         default: AuthRole.EMPLOYE
     })
-    role: AuthRole
+    role: AuthRole;
+
+    @OneToOne(()=> Employer, {cascade: true})
+    @JoinColumn()
+    employer: Employer;
 
     @CreateDateColumn({type: 'timestamp',default:()=>'CURRENT_TIMESTAMP'})
     created_at: Date;

@@ -7,10 +7,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RefreshToken } from './entities/token.entity';
+import { Employer } from 'src/employer/entities/employer.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Auth,RefreshToken]),
+    TypeOrmModule.forFeature([Auth,RefreshToken,Employer]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async(configService: ConfigService) => ({
@@ -22,6 +23,6 @@ import { RefreshToken } from './entities/token.entity';
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [JwtModule]
+  exports: [JwtModule,TypeOrmModule]
 })
 export class AuthModule {}

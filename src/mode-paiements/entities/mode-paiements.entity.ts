@@ -2,16 +2,16 @@ import { Employer } from "src/employer/entities/employer.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Departement{
+export class ModePaiement{
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    nom: string;
+    type: string;
 
     @Column()
     description: string;
 
-    @OneToMany(() => Employer, (employer) => employer.departement)
+    @OneToMany(()=>Employer,(employer)=>employer.modePaiement)
     employers: Employer[];
 }

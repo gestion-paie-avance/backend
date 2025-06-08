@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Employer } from "src/employer/entities/employer.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Poste{
@@ -10,5 +11,8 @@ export class Poste{
 
     @Column()
     niveau: number;
+
+    @OneToMany(() => Employer, (employer) => employer.poste)
+    employers: Employer[];
 
 }

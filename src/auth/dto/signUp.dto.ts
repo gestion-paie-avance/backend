@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsString, MinLength } from "class-validator";
+import { Type } from "class-transformer";
+import { IsEmail, IsInt, IsPositive, IsString, MinLength } from "class-validator";
 
 export class SignUpdto{
     @ApiProperty({
@@ -11,8 +12,10 @@ export class SignUpdto{
     @ApiProperty({
         description: 'matricule of user',
     })
-    @IsString()
-    employe_matricule: string;
+    @IsInt()
+    @IsPositive()
+    @Type(()=> Number)
+    employe_id: number;
 
     @ApiProperty({
         description: 'password of user',

@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Auth } from './entities/auth.entity';
 import { MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshToken } from './entities/token.entity';
 import { v4 as uuid4 } from 'uuid';
+import { Employer } from 'src/employer/entities/employer.entity';
 
 
 @Injectable()
@@ -17,11 +18,20 @@ export class AuthService {
         private readonly authRepository: Repository<Auth>,
         @InjectRepository(RefreshToken)
         private readonly refreshTokenrepository: Repository<RefreshToken>,
+        @InjectRepository(Employer)
+        private readonly employerRepository: Repository<Employer>,
         private readonly jwtService: JwtService
     ){}
 
     async signUp(signUpDto: SignUpdto){
-        const {email , password , confirmationPassword , employe_matricule} = signUpDto;
+        const {email , password , confirmationPassword , employe_id} = signUpDto;
+
+        const employer = await this.employerRepository.findOneBy({id: signUpDto.employe_id});
+        
+        if (!employer) {
+            throw new NotFoundException('Employer not found');
+        }
+
         const existingUser = await this.authRepository.findOne({where: {email}})
         if (existingUser) {
             throw new ConflictException('Email already exists');
@@ -35,7 +45,7 @@ export class AuthService {
         const auth = this.authRepository.create({
             email,
             password: hashPassword,
-            employe_matricule,
+            employer,
         });
 
         return this.authRepository.save(auth);
